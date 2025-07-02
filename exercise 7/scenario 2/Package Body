@@ -1,0 +1,25 @@
+CREATE OR REPLACE PACKAGE BODY EmployeeManagement AS
+
+    PROCEDURE HireEmployee(p_ID IN NUMBER, p_Name IN VARCHAR2, p_Salary IN NUMBER, p_DepartmentID IN NUMBER) IS
+    BEGIN
+        INSERT INTO Employees (EmployeeID, EmployeeName, Salary, DepartmentID)
+        VALUES (p_ID, p_Name, p_Salary, p_DepartmentID);
+    END;
+
+    PROCEDURE UpdateEmployee(p_ID IN NUMBER, p_Name IN VARCHAR2, p_Salary IN NUMBER) IS
+    BEGIN
+        UPDATE Employees
+        SET EmployeeName = p_Name, Salary = p_Salary
+        WHERE EmployeeID = p_ID;
+    END;
+
+    FUNCTION GetAnnualSalary(p_ID IN NUMBER) RETURN NUMBER IS
+        v_AnnualSalary NUMBER;
+    BEGIN
+        SELECT Salary * 12 INTO v_AnnualSalary
+        FROM Employees
+        WHERE EmployeeID = p_ID;
+        RETURN v_AnnualSalary;
+    END;
+
+END EmployeeManagement;

@@ -1,0 +1,25 @@
+CREATE OR REPLACE PACKAGE BODY CustomerManagement AS
+
+    PROCEDURE AddCustomer(p_ID IN NUMBER, p_Name IN VARCHAR2, p_Email IN VARCHAR2) IS
+    BEGIN
+        INSERT INTO Customers (CustomerID, CustomerName, Email)
+        VALUES (p_ID, p_Name, p_Email);
+    END;
+
+    PROCEDURE UpdateCustomer(p_ID IN NUMBER, p_Name IN VARCHAR2, p_Email IN VARCHAR2) IS
+    BEGIN
+        UPDATE Customers
+        SET CustomerName = p_Name, Email = p_Email
+        WHERE CustomerID = p_ID;
+    END;
+
+    FUNCTION GetCustomerBalance(p_ID IN NUMBER) RETURN NUMBER IS
+        v_Balance NUMBER;
+    BEGIN
+        SELECT SUM(Balance) INTO v_Balance
+        FROM Accounts
+        WHERE CustomerID = p_ID;
+        RETURN NVL(v_Balance, 0);
+    END;
+
+END CustomerManagement;
